@@ -64,4 +64,4 @@ npx http-server -p 8080
 Then visit: `http://localhost:8080`
 
 **Also hosted here:**
-
+https://wilshwez.github.io/Binary_Teach/ 
