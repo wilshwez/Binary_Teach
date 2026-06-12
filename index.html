@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Teacher - Master Binary Conversion using Powers of 2</title>
+    <meta name="description" content="An interactive, beautiful educational tool to learn decimal to binary conversion using the powers of 2 subtraction method.">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="glass-bg"></div>
+    <div class="glass-bg-accent"></div>
+    
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">Binary<span>Teacher</span></span>
+            </div>
+            <nav class="nav-tabs">
+                <button id="tab-learn" class="nav-tab active" onclick="switchTab('learn')">Learn & Convert</button>
+                <button id="tab-quiz" class="nav-tab" onclick="switchTab('quiz')">Interactive Quiz</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- LEARN & CONVERT SECTION -->
+        <section id="section-learn" class="tab-content active">
+            <div class="hero">
+                <h1>Master Decimal to Binary Conversion</h1>
+                <p class="subtitle">Learn the <strong>Powers of 2</strong> method through interactive visualization. Change the number or toggle the bits to see how the math works step-by-step.</p>
+            </div>
+
+            <div class="grid-layout">
+                <!-- Left Column: Controls & Visual Bits Board -->
+                <div class="card glass-card control-panel">
+                    <div class="card-header">
+                        <h2>1. Try a Number</h2>
+                        <span class="badge">Sandbox Mode</span>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="decimal-input">Enter a Decimal Integer</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="decimal-input" min="0" max="65535" value="172" placeholder="e.g. 172">
+                            <button id="convert-btn" class="btn btn-primary">Teach Me</button>
+                        </div>
+                        <div class="input-hint">Enter any number between 0 and 65,535</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="card-header">
+                        <h2>2. Interactive Bit Board</h2>
+                        <span class="tooltip-icon" title="Click on the bits to toggle them and see the decimal value change!">ℹ️</span>
+                    </div>
+                    <p class="panel-desc">Click any bit below to toggle it <strong>ON (1)</strong> or <strong>OFF (0)</strong> and watch the decimal sum change in real-time.</p>
+                    
+                    <div class="bit-board-container">
+                        <div id="bit-board" class="bit-board">
+                            <!-- Dynamically generated bit cards -->
+                        </div>
+                    </div>
+
+                    <div class="sum-display">
+                        <div class="sum-box">
+                            <span class="sum-label">Decimal Value</span>
+                            <span id="decimal-sum" class="sum-value">172</span>
+                        </div>
+                        <div class="sum-box">
+                            <span class="sum-label">Binary Result</span>
+                            <span id="binary-sum" class="sum-value binary-text">10101100</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Teacher Explanations -->
+                <div class="card glass-card teacher-panel">
+                    <div class="teacher-header">
+                        <div class="teacher-avatar">
+                            <span class="avatar-emoji">👨‍🏫</span>
+                            <span class="pulse-ring"></span>
+                        </div>
+                        <div>
+                            <h3>Teacher Explanation</h3>
+                            <p class="teacher-status">Online • Ready to guide you</p>
+                        </div>
+                    </div>
+
+                    <div id="teacher-bubble" class="teacher-bubble">
+                        <!-- Dynamically filled with teacher wisdom -->
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <h3>Step-by-Step Subtraction Process</h3>
+                    <div id="steps-timeline" class="timeline">
+                        <!-- Dynamically filled with timeline steps -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUIZ / PRACTICE SECTION -->
+        <section id="section-quiz" class="tab-content">
+            <div class="hero">
+                <h1>Binary Challenge Quiz</h1>
+                <p class="subtitle">Put your skills to the test! Can you match the target decimal number by toggling the correct bits?</p>
+            </div>
+
+            <div class="quiz-container">
+                <div class="card glass-card quiz-card">
+                    <div class="quiz-status">
+                        <div class="score-board">Score: <span id="quiz-score">0</span></div>
+                        <div class="streak-board">Streak: <span id="quiz-streak">0</span> 🔥</div>
+                    </div>
+
+                    <div class="target-display">
+                        <p class="target-label">YOUR TARGET DECIMAL NUMBER</p>
+                        <h2 id="target-number">43</h2>
+                    </div>
+
+                    <p class="quiz-instruction">Toggle the bits below so that their sum equals <strong id="target-number-hint">43</strong>:</p>
+
+                    <div class="bit-board-container">
+                        <div id="quiz-bit-board" class="bit-board">
+                            <!-- Quiz bits generated here -->
+                        </div>
+                    </div>
+
+                    <div class="quiz-results">
+                        <div class="quiz-sum-display">
+                            Current Sum: <span id="quiz-current-sum">0</span>
+                        </div>
+                        <div id="quiz-feedback" class="quiz-feedback">
+                            <!-- Correct / Keep trying feedback -->
+                        </div>
+                    </div>
+
+                    <div class="quiz-actions">
+                        <button id="quiz-check-btn" class="btn btn-primary" onclick="checkQuizAnswer()">Submit Answer</button>
+                        <button id="quiz-next-btn" class="btn btn-secondary" onclick="generateNewQuizQuestion()">Skip / Next Number</button>
+                    </div>
+                </div>
+
+                <div class="card glass-card quiz-guide">
+                    <div class="teacher-header">
+                        <div class="teacher-avatar">
+                            <span class="avatar-emoji">💡</span>
+                        </div>
+                        <div>
+                            <h3>Teacher's Tip</h3>
+                            <p class="teacher-status">How to solve this</p>
+                        </div>
+                    </div>
+                    <div class="guide-content">
+                        <p>To convert the target number to binary quickly:</p>
+                        <ol>
+                            <li>Find the largest power of 2 that is **smaller than** the target.</li>
+                            <li>Toggle that bit **ON**.</li>
+                            <li>Subtract that power of 2 from your target number to find your new target remainder.</li>
+                            <li>Repeat the process with the remainder until your current sum matches the target!</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <p>&copy; 2026 Binary Teacher. Designed for intuitive learning.</p>
+            <p>Made with 💻 &amp; 💡</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
